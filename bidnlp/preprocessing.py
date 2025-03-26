@@ -5,6 +5,7 @@ from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer, LancasterStemmer , WordNetLemmatizer
 
 nltk.download("stopwords")
+nltk.download("wordnet")
 
 class TextPreprocessor:
     PERSIAN_SUFFIXES = ["ها", "های", "تر", "ترین", "ای", "ام", "ات", "اش", "مان", "تان", "شان"]
