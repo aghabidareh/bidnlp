@@ -12,4 +12,7 @@ class TextPreprocessor:
             self.load_stopwords(stopwords_file)
 
     def load_stopwords(self, file_path):
-        pass
+        if os.path.exists(file_path):
+            with open(file_path, "r" , encoding='utf-8') as file:
+                user_stopword = set(file.read().splitlines())
+                self.stopwords.update(user_stopword)
