@@ -18,6 +18,9 @@ class TextPreprocessor:
         if stopwords_file:
             self.load_stopwords(stopwords_file)
 
+        self.language = language
+        self.stemmer = self._initialize_stemmer(language, stemmer_type)
+
     def load_stopwords(self, file_path):
         if os.path.exists(file_path):
             with open(file_path, "r" , encoding='utf-8') as file:
