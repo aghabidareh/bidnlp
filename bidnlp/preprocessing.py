@@ -26,7 +26,7 @@ class TextPreprocessor:
     }
 
     def __init__(self , stopwords_file=None , language="english", stemmer_type="porter" , use_lemmatization=False):
-        self.stopwords = set(stopwords.words(language))
+        self.stopwords = set(stopwords.words(language)) if language in stopwords.fileids() else set()
         if stopwords_file:
             self.load_stopwords(stopwords_file)
 
