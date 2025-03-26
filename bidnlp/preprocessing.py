@@ -73,7 +73,7 @@ class TextPreprocessor:
                 return word[:-len(suffix)]
         return word
 
-    def preprocess(self , text):
+    def preprocess(self , text , apply_stemming=True):
         text = self.normalize(text)
         text = self.remove_punctuation(text)
         text = self.remove_stopwords(text)
