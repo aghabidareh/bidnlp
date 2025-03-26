@@ -2,6 +2,7 @@ import re
 import os
 import nltk
 from nltk.corpus import stopwords
+from nltk.stem import PorterStemmer, LancasterStemmer
 
 nltk.download("stopwords")
 
@@ -26,6 +27,11 @@ class TextPreprocessor:
             with open(file_path, "r" , encoding='utf-8') as file:
                 user_stopword = set(file.read().splitlines())
                 self.stopwords.update(user_stopword)
+
+    def _initialize_stemmer(self, language, stemmer_type):
+        if language == "english":
+            return PorterStemmer() if stemmer_type == "porter" else LancasterStemmer()
+        return None
 
     @staticmethod
     def normalize(self, text):
