@@ -65,6 +65,9 @@ class TextPreprocessor:
             words = [self.persian_stemmer(word) for word in words]
         return ' '.join(words)
 
+    def persian_stemmer(self , word):
+        pass
+
     def preprocess(self , text):
         text = self.normalize(text)
         text = self.remove_punctuation(text)
