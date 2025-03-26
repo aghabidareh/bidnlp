@@ -46,13 +46,13 @@ class TextPreprocessor:
                 self.stopwords.update(user_stopword)
 
     @staticmethod
-    def _initialize_stemmer(self, language, stemmer_type):
+    def _initialize_stemmer(language, stemmer_type):
         if language == "english":
             return PorterStemmer() if stemmer_type == "porter" else LancasterStemmer()
         return None
 
     @staticmethod
-    def normalize(self, text):
+    def normalize(text):
         regex = r'\s+'
         replace = ' '
         text = text.lower().strip()
@@ -60,7 +60,7 @@ class TextPreprocessor:
         return text
 
     @staticmethod
-    def remove_punctuation(self, text):
+    def remove_punctuation(text):
         regex = '[^\w\s]'
         replace = ''
         text = re.sub(regex , replace , text)
