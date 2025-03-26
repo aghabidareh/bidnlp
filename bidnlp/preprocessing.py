@@ -1,7 +1,7 @@
 import re
 import os
 import nltk
-from nltk.corpus import stopwords
+from nltk.corpus import stopwords , wordnet
 from nltk.stem import PorterStemmer, LancasterStemmer , WordNetLemmatizer
 
 nltk.download("stopwords")
@@ -15,6 +15,12 @@ class TextPreprocessor:
         "دوید": "دویدن", "رفت": "رفتن", "آمد": "آمدن", "گفت": "گفتن",
         "خواست": "خواستن", "دید": "دیدن", "نوشت": "نوشتن", "خواند": "خواندن",
         "گرفت": "گرفتن", "داد": "دادن"
+    }
+    POS_TAG_MAP = {
+        "N": wordnet.NOUN,
+        "V": wordnet.VERB,
+        "J": wordnet.ADJ,
+        "R": wordnet.ADV
     }
 
     def __init__(self , stopwords_file=None , language="english", stemmer_type="porter" , use_lemmatization=False):
