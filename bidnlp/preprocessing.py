@@ -88,12 +88,7 @@ class TextPreprocessor:
         return " ".join(words)
 
     def persian_stemmer(self , word):
-        if word in self.PERSIAN_ROOTS:
-            return self.PERSIAN_ROOTS[word]
-        for suffix in self.PERSIAN_SUFFIXES:
-            if word.endswith(suffix):
-                return word[:-len(suffix)]
-        return word
+        return self.persian_lemmatizer(word)
 
     def preprocess(self , text , apply_stemming=True):
         text = self.normalize(text)
