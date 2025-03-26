@@ -57,6 +57,9 @@ class TextPreprocessor:
     def tokenize(self , text):
         return text.split()
 
+    def stem(self, text):
+        pass
+
     def preprocess(self , text):
         text = self.normalize(text)
         text = self.remove_punctuation(text)
