@@ -62,7 +62,8 @@ class TextPreprocessor:
     def remove_punctuation(self, text):
         regex = '[^\w\s]'
         replace = ''
-        return re.sub(regex , replace , text)
+        text = re.sub(regex , replace , text)
+        return text
 
     def remove_stopwords(self, text):
         words = text.split()
