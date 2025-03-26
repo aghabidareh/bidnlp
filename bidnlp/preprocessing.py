@@ -85,7 +85,7 @@ class TextPreprocessor:
             words = [self.stemmer.stem(word) for word in words]
         elif self.language == "persian":
             words = [self.persian_stemmer(word) for word in words]
-        return ' '.join(words)
+        return " ".join(words)
 
     def persian_stemmer(self , word):
         if word in self.PERSIAN_ROOTS:
