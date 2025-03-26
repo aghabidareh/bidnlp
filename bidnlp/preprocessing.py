@@ -100,6 +100,9 @@ class TextPreprocessor:
     def persian_stemmer(self , word):
         return self.persian_lemmatizer(word)
 
+    def get_pos(self, word):
+        pass
+
     def preprocess(self , text , apply_stemming=True):
         text = self.normalize(text)
         text = self.remove_punctuation(text)
