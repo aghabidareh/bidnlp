@@ -3,6 +3,8 @@ import os
 import nltk
 from nltk.corpus import stopwords , wordnet
 from nltk.stem import PorterStemmer, LancasterStemmer , WordNetLemmatizer
+from nltk.tokenize import word_tokenize
+from nltk import pos_tag
 
 nltk.download("stopwords")
 nltk.download("wordnet")
