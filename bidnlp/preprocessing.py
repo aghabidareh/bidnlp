@@ -28,6 +28,7 @@ class TextPreprocessor:
                 user_stopword = set(file.read().splitlines())
                 self.stopwords.update(user_stopword)
 
+    @staticmethod
     def _initialize_stemmer(self, language, stemmer_type):
         if language == "english":
             return PorterStemmer() if stemmer_type == "porter" else LancasterStemmer()
