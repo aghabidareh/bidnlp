@@ -16,3 +16,6 @@ class TextPreprocessor:
             with open(file_path, "r" , encoding='utf-8') as file:
                 user_stopword = set(file.read().splitlines())
                 self.stopwords.update(user_stopword)
+
+    def normalize(self, text):
+        pass
