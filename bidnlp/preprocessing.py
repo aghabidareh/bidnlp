@@ -71,6 +71,9 @@ class TextPreprocessor:
             words = [self.persian_lemmatizer(word) for word in words]
         return " ".join(words)
 
+    def persian_lemmatizer(self, word):
+        pass
+
     def stem(self, text):
         words = self.tokenize(text)
         if self.language == "english" and self.stemmer:
