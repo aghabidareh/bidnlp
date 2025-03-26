@@ -28,3 +28,6 @@ class TextPreprocessor:
         regex = '[^\w\s]'
         replace = ''
         return re.sub(regex , replace , text)
+
+    def remove_stopwords(self, text):
+        pass
