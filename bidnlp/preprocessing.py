@@ -72,7 +72,12 @@ class TextPreprocessor:
         return " ".join(words)
 
     def persian_lemmatizer(self, word):
-        pass
+        if word in self.PERSIAN_LEMMA_DICT:
+            return self.PERSIAN_LEMMA_DICT[word]
+        for suffix in self.PERSIAN_SUFFIXES:
+            if word.endswith(suffix):
+                return word[:-len(suffix)]
+        return word
 
     def stem(self, text):
         words = self.tokenize(text)
