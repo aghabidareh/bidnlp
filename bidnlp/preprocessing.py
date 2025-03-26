@@ -66,7 +66,12 @@ class TextPreprocessor:
         return ' '.join(words)
 
     def persian_stemmer(self , word):
-        pass
+        if word in self.PERSIAN_ROOTS:
+            return self.PERSIAN_ROOTS[word]
+        for suffix in self.PERSIAN_SUFFIXES:
+            if word.endswith(suffix):
+                return word[:-len(suffix)]
+        return word
 
     def preprocess(self , text):
         text = self.normalize(text)
