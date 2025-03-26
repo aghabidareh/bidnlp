@@ -71,10 +71,6 @@ class TextPreprocessor:
         text = ' '.join(words)
         return text
 
-    @staticmethod
-    def tokenize(self , text):
-        return text.split()
-
     def lemmatize(self , text):
         words = self.tokenize(text)
         if self.language == "english" and self.lemmatizer:
