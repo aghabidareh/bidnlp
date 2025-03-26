@@ -63,6 +63,14 @@ class TextPreprocessor:
     def tokenize(self , text):
         return text.split()
 
+    def lemmatize(self , text):
+        words = self.tokenize(text)
+        if self.language == "english" and self.lemmatizer:
+            words = [self.lemmatizer.lemmatize(word, pos="v") for word in words]
+        elif self.language == "persian":
+            words = [self.persian_lemmatizer(word) for word in words]
+        return " ".join(words)
+
     def stem(self, text):
         words = self.tokenize(text)
         if self.language == "english" and self.stemmer:
