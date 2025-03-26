@@ -13,7 +13,7 @@ class TextPreprocessor:
         "دید": "بین", "نوشت": "نویس", "خواند": "خوان", "گرفت": "گیر"
     }
 
-    def __init__(self , stopwords_file=None , language="english"):
+    def __init__(self , stopwords_file=None , language="english", stemmer_type="porter"):
         self.stopwords = set(stopwords.words(language))
         if stopwords_file:
             self.load_stopwords(stopwords_file)
