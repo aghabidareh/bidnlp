@@ -36,6 +36,7 @@ class TextPreprocessor:
         words = [word for word in words if word not in self.stopwords]
         return ' '.join(words)
 
+    @staticmethod
     def tokenize(self , text):
         return text.split()
 
