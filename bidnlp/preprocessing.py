@@ -2,7 +2,7 @@ import re
 import os
 import nltk
 from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer, LancasterStemmer
+from nltk.stem import PorterStemmer, LancasterStemmer , WordNetLemmatizer
 
 nltk.download("stopwords")
 
@@ -20,7 +20,12 @@ class TextPreprocessor:
             self.load_stopwords(stopwords_file)
 
         self.language = language
-        self.stemmer = self._initialize_stemmer(language, stemmer_type)
+        self.use_lemmatization = use_lemmatization
+
+        if use_lemmatization:
+            self.lemmatizer = WordNetLemmatizer() if language == "english" else None
+        else:
+            self.stemmer = self._initialize_stemmer(language, stemmer_type)
 
     def load_stopwords(self, file_path):
         if os.path.exists(file_path):
