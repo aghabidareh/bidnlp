@@ -36,3 +36,6 @@ class TextPreprocessor:
 
     def tokenize(self , text):
         return text.split()
+
+    def preprocess(self , text):
+        pass
