@@ -38,4 +38,7 @@ class TextPreprocessor:
         return text.split()
 
     def preprocess(self , text):
-        pass
+        text = self.normalize(text)
+        text = self.remove_punctuation(text)
+        text = self.remove_stopwords(text)
+        return text
