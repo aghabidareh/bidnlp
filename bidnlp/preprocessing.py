@@ -58,7 +58,12 @@ class TextPreprocessor:
         return text.split()
 
     def stem(self, text):
-        pass
+        words = self.tokenize(text)
+        if self.language == "english" and self.stemmer:
+            words = [self.stemmer.stem(word) for word in words]
+        elif self.language == "persian":
+            words = [self.persian_stemmer(word) for word in words]
+        return ' '.join(words)
 
     def preprocess(self , text):
         text = self.normalize(text)
