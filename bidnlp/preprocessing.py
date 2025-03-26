@@ -23,3 +23,6 @@ class TextPreprocessor:
         text = text.lower().strip()
         text = re.sub(regex , replace , text)
         return text
+
+    def remove_punctuation(self, text):
+        pass
