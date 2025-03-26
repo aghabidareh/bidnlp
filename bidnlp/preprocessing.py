@@ -5,6 +5,7 @@ from nltk.corpus import stopwords , wordnet
 from nltk.stem import PorterStemmer, LancasterStemmer , WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk import pos_tag
+import functools
 
 nltk.download("stopwords")
 nltk.download("wordnet")
@@ -79,6 +80,7 @@ class TextPreprocessor:
             words = [self.persian_lemmatizer(word) for word in words]
         return " ".join(words)
 
+    @functools.lru_cache(maxsize=10000)
     def persian_lemmatizer(self, word):
         if word in self.PERSIAN_LEMMA_DICT:
             return self.PERSIAN_LEMMA_DICT[word]
