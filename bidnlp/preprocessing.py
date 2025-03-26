@@ -30,4 +30,6 @@ class TextPreprocessor:
         return re.sub(regex , replace , text)
 
     def remove_stopwords(self, text):
-        pass
+        words = text.split()
+        words = [word for word in words if word not in self.stopwords]
+        return ' '.join(words)
