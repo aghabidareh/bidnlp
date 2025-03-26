@@ -14,7 +14,7 @@ class TextPreprocessor:
         "گرفت": "گرفتن", "داد": "دادن"
     }
 
-    def __init__(self , stopwords_file=None , language="english", stemmer_type="porter"):
+    def __init__(self , stopwords_file=None , language="english", stemmer_type="porter" , use_lemmatization=False):
         self.stopwords = set(stopwords.words(language))
         if stopwords_file:
             self.load_stopwords(stopwords_file)
