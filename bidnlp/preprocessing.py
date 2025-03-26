@@ -101,7 +101,8 @@ class TextPreprocessor:
         return self.persian_lemmatizer(word)
 
     def get_pos(self, word):
-        pass
+        tag = pos_tag([word])[0][1][0].upper()
+        return self.POS_TAG_MAP.get(tag, wordnet.NOUN)
 
     def preprocess(self , text , apply_stemming=True):
         text = self.normalize(text)
