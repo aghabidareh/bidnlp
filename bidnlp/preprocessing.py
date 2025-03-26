@@ -1,8 +1,8 @@
 import re
 import os
 import nltk
-from nltk.corpus import stopwords , wordnet
-from nltk.stem import PorterStemmer, LancasterStemmer , WordNetLemmatizer
+from nltk.corpus import stopwords, wordnet
+from nltk.stem import PorterStemmer, LancasterStemmer, WordNetLemmatizer
 from nltk.tokenize import word_tokenize
 from nltk import pos_tag
 import functools
@@ -11,6 +11,7 @@ nltk.download("stopwords")
 nltk.download("wordnet")
 nltk.download("punkt")
 nltk.download("averaged_perceptron_tagger")
+
 
 class TextPreprocessor:
     PERSIAN_SUFFIXES = ["ها", "های", "تر", "ترین", "ای", "ام", "ات", "اش", "مان", "تان", "شان"]
@@ -26,7 +27,7 @@ class TextPreprocessor:
         "R": wordnet.ADV
     }
 
-    def __init__(self , stopwords_file=None , language="english", stemmer_type="porter" , use_lemmatization=False):
+    def __init__(self, stopwords_file=None, language="english", stemmer_type="porter", use_lemmatization=False):
         self.stopwords = set(stopwords.words(language)) if language in stopwords.fileids() else set()
         if stopwords_file:
             self.load_stopwords(stopwords_file)
@@ -41,7 +42,7 @@ class TextPreprocessor:
 
     def load_stopwords(self, file_path):
         if os.path.exists(file_path):
-            with open(file_path, "r" , encoding='utf-8') as file:
+            with open(file_path, "r", encoding='utf-8') as file:
                 user_stopword = set(file.read().splitlines())
                 self.stopwords.update(user_stopword)
 
@@ -56,14 +57,14 @@ class TextPreprocessor:
         regex = r'\s+'
         replace = ' '
         text = text.lower().strip()
-        text = re.sub(regex , replace , text)
+        text = re.sub(regex, replace, text)
         return text
 
     @staticmethod
     def remove_punctuation(text):
         regex = '[^\w\s]'
         replace = ''
-        text = re.sub(regex , replace , text)
+        text = re.sub(regex, replace, text)
         return text
 
     def remove_stopwords(self, text):
@@ -72,7 +73,7 @@ class TextPreprocessor:
         text = ' '.join(words)
         return text
 
-    def lemmatize(self , text):
+    def lemmatize(self, text):
         words = word_tokenize(text)
         if self.language == "english" and self.lemmatizer:
             words = [self.lemmatizer.lemmatize(word, self.get_pos(word)) for word in words]
@@ -97,14 +98,14 @@ class TextPreprocessor:
             words = [self.persian_stemmer(word) for word in words]
         return " ".join(words)
 
-    def persian_stemmer(self , word):
+    def persian_stemmer(self, word):
         return self.persian_lemmatizer(word)
 
     def get_pos(self, word):
         tag = pos_tag([word])[0][1][0].upper()
         return self.POS_TAG_MAP.get(tag, wordnet.NOUN)
 
-    def preprocess(self , text , apply_stemming=True):
+    def preprocess(self, text, apply_stemming=True):
         text = self.normalize(text)
         text = self.remove_punctuation(text)
         text = self.remove_stopwords(text)
