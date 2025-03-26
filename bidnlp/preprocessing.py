@@ -94,6 +94,8 @@ class TextPreprocessor:
         text = self.normalize(text)
         text = self.remove_punctuation(text)
         text = self.remove_stopwords(text)
-        if apply_stemming:
+        if self.use_lemmatization:
+            text = self.lemmatize(text)
+        elif apply_stemming:
             text = self.stem(text)
         return text
