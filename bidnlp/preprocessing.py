@@ -6,6 +6,13 @@ from nltk.corpus import stopwords
 nltk.download("stopwords")
 
 class TextPreprocessor:
+
+    PERSIAN_SUFFIXES = ["ها", "های", "تر", "ترین", "ای", "ام", "ات", "اش", "مان", "تان", "شان"]
+    PERSIAN_ROOTS = {
+        "دوید": "دو", "رفت": "رو", "آمد": "آی", "گفت": "گو", "خواست": "خواه",
+        "دید": "بین", "نوشت": "نویس", "خواند": "خوان", "گرفت": "گیر"
+    }
+
     def __init__(self , stopwords_file=None , language="english"):
         self.stopwords = set(stopwords.words(language))
         if stopwords_file:
