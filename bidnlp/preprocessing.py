@@ -68,7 +68,8 @@ class TextPreprocessor:
     def remove_stopwords(self, text):
         words = text.split()
         words = [word for word in words if word not in self.stopwords]
-        return ' '.join(words)
+        text = ' '.join(words)
+        return text
 
     @staticmethod
     def tokenize(self , text):
