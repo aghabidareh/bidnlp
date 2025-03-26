@@ -18,4 +18,8 @@ class TextPreprocessor:
                 self.stopwords.update(user_stopword)
 
     def normalize(self, text):
-        pass
+        regex = r'\s+'
+        replace = ' '
+        text = text.lower().strip()
+        text = re.sub(regex , replace , text)
+        return text
