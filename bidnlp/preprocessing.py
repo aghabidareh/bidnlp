@@ -90,7 +90,7 @@ class TextPreprocessor:
         return word
 
     def stem(self, text):
-        words = self.tokenize(text)
+        words = text.split()
         if self.language == "english" and self.stemmer:
             words = [self.stemmer.stem(word) for word in words]
         elif self.language == "persian":
