@@ -33,3 +33,6 @@ class TextPreprocessor:
         words = text.split()
         words = [word for word in words if word not in self.stopwords]
         return ' '.join(words)
+
+    def tokenize(self , text):
+        pass
