@@ -25,6 +25,7 @@ class TextPreprocessor:
         text = re.sub(regex , replace , text)
         return text
 
+    @staticmethod
     def remove_punctuation(self, text):
         regex = '[^\w\s]'
         replace = ''
