@@ -7,11 +7,11 @@ from nltk.stem import PorterStemmer, LancasterStemmer
 nltk.download("stopwords")
 
 class TextPreprocessor:
-
     PERSIAN_SUFFIXES = ["ها", "های", "تر", "ترین", "ای", "ام", "ات", "اش", "مان", "تان", "شان"]
-    PERSIAN_ROOTS = {
-        "دوید": "دو", "رفت": "رو", "آمد": "آی", "گفت": "گو", "خواست": "خواه",
-        "دید": "بین", "نوشت": "نویس", "خواند": "خوان", "گرفت": "گیر"
+    PERSIAN_LEMMA_DICT = {
+        "دوید": "دویدن", "رفت": "رفتن", "آمد": "آمدن", "گفت": "گفتن",
+        "خواست": "خواستن", "دید": "دیدن", "نوشت": "نوشتن", "خواند": "خواندن",
+        "گرفت": "گرفتن", "داد": "دادن"
     }
 
     def __init__(self , stopwords_file=None , language="english", stemmer_type="porter"):
