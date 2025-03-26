@@ -17,6 +17,7 @@ class TextPreprocessor:
                 user_stopword = set(file.read().splitlines())
                 self.stopwords.update(user_stopword)
 
+    @staticmethod
     def normalize(self, text):
         regex = r'\s+'
         replace = ' '
