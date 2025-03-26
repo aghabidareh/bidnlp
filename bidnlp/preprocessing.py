@@ -72,9 +72,9 @@ class TextPreprocessor:
         return text
 
     def lemmatize(self , text):
-        words = self.tokenize(text)
+        words = word_tokenize(text)
         if self.language == "english" and self.lemmatizer:
-            words = [self.lemmatizer.lemmatize(word, pos="v") for word in words]
+            words = [self.lemmatizer.lemmatize(word, self.get_pos(word)) for word in words]
         elif self.language == "persian":
             words = [self.persian_lemmatizer(word) for word in words]
         return " ".join(words)
