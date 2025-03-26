@@ -77,4 +77,5 @@ class TextPreprocessor:
         text = self.normalize(text)
         text = self.remove_punctuation(text)
         text = self.remove_stopwords(text)
+        
         return text
