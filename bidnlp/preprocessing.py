@@ -35,4 +35,4 @@ class TextPreprocessor:
         return ' '.join(words)
 
     def tokenize(self , text):
-        pass
+        return text.split()
