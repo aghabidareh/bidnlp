@@ -1,0 +1,2 @@
+class TextVectorizer:
+    pass
