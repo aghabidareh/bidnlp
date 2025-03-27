@@ -16,4 +16,5 @@ class TextStats:
 
     @staticmethod
     def lexical_diversity(text):
-        pass
+        words = text.split()
+        return len(set(words)) / len(words) if words else 0
