@@ -19,3 +19,7 @@ class TextStats:
     def lexical_diversity(text):
         words = text.split()
         return len(set(words)) / len(words) if words else 0
+
+    @staticmethod
+    def digit_ratio(text):
+        pass
