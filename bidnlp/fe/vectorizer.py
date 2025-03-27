@@ -40,3 +40,6 @@ class TextVectorizer:
             self.model.save(path)
         else:
             joblib.dump(self.model, path)
+
+    def load_model(self, path):
+        pass
