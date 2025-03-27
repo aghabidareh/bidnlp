@@ -1,5 +1,6 @@
 import numpy as np
 
 class TextStats:
-    def __init__(self):
+    @staticmethod
+    def char_count(text):
         pass
