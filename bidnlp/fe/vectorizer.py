@@ -42,4 +42,7 @@ class TextVectorizer:
             joblib.dump(self.model, path)
 
     def load_model(self, path):
-        pass
+        if self.method in ["word2vec", "fasttext"]:
+            self.model = Word2Vec.load(path) if self.method == "word2vec" else FastText.load(path)
+        else:
+            self.vectorizer = joblib.load(path)
