@@ -26,3 +26,6 @@ class TextVectorizer:
             tokenized_sequences = [sentence.split() for sentence in corpus]
             self.model = Word2Vec(sentences=tokenized_sequences, vector_size=100, window=5, min_count=2, workers=4) \
                 if self.method == "word2vec" else FastText(sentences=tokenized_sequences, vector_size=100, window=5, min_count=2, workers=4)
+
+    def transform(self, text):
+        pass
