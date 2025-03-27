@@ -18,3 +18,6 @@ class TextVectorizer:
             self.model = Word2Vec.load(model_path) if model_path else None
         else:
             raise ValueError("Invalid vectorization method. Choose 'bow', 'tfidf', 'word2vec', or 'fasttext'.")
+
+    def fit(self , corpus):
+        pass
