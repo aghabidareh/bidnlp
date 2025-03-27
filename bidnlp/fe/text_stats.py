@@ -7,4 +7,4 @@ class TextStats:
 
     @staticmethod
     def word_count(text):
-        pass
+        return len(text.split())
