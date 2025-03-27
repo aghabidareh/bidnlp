@@ -36,4 +36,7 @@ class TextVectorizer:
             return np.mean(vectors, axis=0) if vectors else np.zeros(self.model.vector_size)
 
     def save_model(self, path):
-        pass
+        if self.method in ['word2vec', 'fasttext']:
+            self.model.save(path)
+        else:
+            joblib.dump(self.model, path)
