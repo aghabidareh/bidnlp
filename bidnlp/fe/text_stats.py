@@ -13,3 +13,7 @@ class TextStats:
     def average_word_length(text):
         words = text.split()
         return np.mean([len(word) for word in words]) if words else 0
+
+    @staticmethod
+    def lexical_diversity(text):
+        pass
