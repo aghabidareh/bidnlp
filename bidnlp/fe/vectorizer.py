@@ -20,4 +20,9 @@ class TextVectorizer:
             raise ValueError("Invalid vectorization method. Choose 'bow', 'tfidf', 'word2vec', or 'fasttext'.")
 
     def fit(self , corpus):
-        pass
+        if self.method in ['bow' , 'tfidf']:
+            self.vectorizer.fit(corpus)
+        elif self.method in ['word2vec', 'fasttext']:
+            tokenized_sequences = [sentence.split() for sentence in corpus]
+            self.model = Word2Vec(sentences=tokenized_sequences, vector_size=100, window=5, min_count=2, workers=4) \
+                if self.method == "word2vec" else FastText(sentences=tokenized_sequences, vector_size=100, window=5, min_count=2, workers=4)
