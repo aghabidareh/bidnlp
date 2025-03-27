@@ -28,4 +28,9 @@ class TextVectorizer:
                 if self.method == "word2vec" else FastText(sentences=tokenized_sequences, vector_size=100, window=5, min_count=2, workers=4)
 
     def transform(self, text):
-        pass
+        if self.method in ['bow', 'tfidf']:
+            return self.vectorizer.transform([text]).toarray()
+        elif self.method in ['word2vec', 'fasttext']:
+            words = text.split()
+            vectors = [self.model.wv[word] for word in words if word in self.model.wv]
+            return np.mean(vectors, axis=0) if vectors else np.zeros(self.model.vector_size)
