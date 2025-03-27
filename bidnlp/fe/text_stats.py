@@ -8,3 +8,7 @@ class TextStats:
     @staticmethod
     def word_count(text):
         return len(text.split())
+
+    @staticmethod
+    def average_word_length(text):
+        pass
