@@ -34,3 +34,6 @@ class TextVectorizer:
             words = text.split()
             vectors = [self.model.wv[word] for word in words if word in self.model.wv]
             return np.mean(vectors, axis=0) if vectors else np.zeros(self.model.vector_size)
+
+    def save_model(self, path):
+        pass
