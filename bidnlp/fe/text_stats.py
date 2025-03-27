@@ -1,4 +1,5 @@
 import numpy as np
+import re
 
 
 class TextStats:
@@ -27,4 +28,5 @@ class TextStats:
 
     @staticmethod
     def special_char_ratio(text):
-        pass
+        special_chars = re.findall(r'[!?@#$%^&*(),.":{}|<>]', text)
+        return len(special_chars) / len(text) if text else 0
