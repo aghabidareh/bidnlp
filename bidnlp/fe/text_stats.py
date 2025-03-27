@@ -22,4 +22,5 @@ class TextStats:
 
     @staticmethod
     def digit_ratio(text):
-        pass
+        digits = sum(1 for char in text if char.isdigit())
+        return digits / len(text) if text else 0
