@@ -11,4 +11,5 @@ class TextStats:
 
     @staticmethod
     def average_word_length(text):
-        pass
+        words = text.split()
+        return np.mean([len(word) for word in words]) if words else 0
