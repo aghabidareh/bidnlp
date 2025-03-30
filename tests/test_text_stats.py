@@ -12,4 +12,9 @@ def sample_text_fa():
 @pytest.mark.parametrize('text' , ['sample_text_en', 'sample_text_fa'])
 def test_char_count(text , request):
     sample_text = request.getfixturevalue(text)
-    assert sample_text.char_count == len(sample_text)
+    assert TextStats.char_count(sample_text) == len(sample_text)
+
+@pytest.mark.parametrize('text, expected' , [('sample_text_en' , 5) , ('sample_text_fa' , 4)])
+def test_word_count(text , expected , request):
+    sample_text = request.getfixturevalue(text)
+    assert TextStats.word_count(sample_text) == expected
