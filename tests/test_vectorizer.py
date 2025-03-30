@@ -26,3 +26,12 @@ def test_bow_vectorizer(language, texts, request):
     transformed = vectorizer.transform(sample_texts[0])
     assert transformed.shape == (1, 10)
     assert isinstance(transformed, np.ndarray)
+
+@pytest.mark.parametrize("language, texts", [("en", "sample_texts_en"), ("fa", "sample_texts_fa")])
+def test_tfidf_vectorizer(language, texts, request):
+    sample_texts = request.getfixturevalue(texts)
+    vectorizer = TextVectorizer(method="tfidf", max_features=10, lang=language)
+    vectorizer.fit(sample_texts)
+    transformed = vectorizer.transform(sample_texts[0])
+    assert transformed.shape == (1, 10)
+    assert isinstance(transformed, np.ndarray)
