@@ -18,3 +18,9 @@ def test_char_count(text , request):
 def test_word_count(text , expected , request):
     sample_text = request.getfixturevalue(text)
     assert TextStats.word_count(sample_text) == expected
+
+@pytest.mark.parametrize("text", ["sample_text_en", "sample_text_fa"])
+def test_avg_word_length(text, request):
+    sample_text = request.getfixturevalue(text)
+    words = sample_text.split()
+    assert round(TextStats.average_word_length(sample_text), 2) == round(sum(len(w) for w in words) / len(words), 2)
