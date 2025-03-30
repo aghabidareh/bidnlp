@@ -12,3 +12,8 @@ def sample_word_fa():
 def test_lemmatization_en(sample_word_en):
     lemmatizer = TextPreprocessor(language="en")
     assert lemmatizer.lemmatize(sample_word_en) == "run"
+
+
+def test_lemmatization_fa(sample_word_fa):
+    lemmatizer = TextPreprocessor(language="fa")
+    assert lemmatizer.lemmatize(sample_word_fa) == "رفتن"
