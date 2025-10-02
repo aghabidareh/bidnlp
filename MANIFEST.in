@@ -1,0 +1,8 @@
+include README.md
+include LICENSE
+include QUICKSTART.md
+include ROADMAP.md
+include SESSION_SUMMARY.md
+recursive-include bidnlp *.py
+recursive-include tests *.py
+recursive-include examples *.py

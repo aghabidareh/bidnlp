@@ -6,7 +6,7 @@ BidNLP is a production-ready Python library for Persian text processing, offerin
 
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests: 94.1%](https://img.shields.io/badge/tests-94.1%25-brightgreen.svg)](https://github.com/yourusername/bidnlp)
+[![Tests: 94.1%](https://img.shields.io/badge/tests-94.1%25-brightgreen.svg)](https://github.com/aghabidareh/bidnlp)
 
 ## ✨ Features
 
@@ -49,7 +49,7 @@ pip install bidnlp
 
 **From source:**
 ```bash
-git clone https://github.com/yourusername/bidnlp.git
+git clone https://github.com/aghabidareh/bidnlp.git
 cd bidnlp
 pip install -e .
 ```
