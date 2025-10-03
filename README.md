@@ -164,14 +164,6 @@ bow = BagOfWords(max_features=50)
 vectors = bow.fit_transform(documents)
 ```
 
-## 📚 Documentation
-
-For detailed documentation and examples, see:
-- [Quick Start Guide](QUICKSTART.md) - Get started quickly
-- [Roadmap](ROADMAP.md) - Full project documentation and development guide
-- [Session Summary](SESSION_SUMMARY.md) - Latest development updates
-- [Examples](examples/) - Comprehensive usage examples
-
 ## 🧪 Testing
 
 ```bash
