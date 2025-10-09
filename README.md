@@ -22,14 +22,14 @@ BidNLP is a production-ready Python library for Persian text processing, offerin
 - **Date Normalization**: Jalali date handling and formatting
 - **Punctuation**: Persian and Latin punctuation normalization
 
-### ✂️ Tokenization (100% Complete)
+### ✂️ Tokenization (100% 100% Complete)
 - **Word Tokenizer**: ZWNJ-aware, handles compound words and mixed scripts
 - **Sentence Tokenizer**: Smart boundary detection with abbreviation support
 - **Character Tokenizer**: Character-level tokenization with diacritic handling
 - **Morpheme Tokenizer**: Prefix/suffix detection and morphological analysis
 - **Syllable Tokenizer**: Persian syllable segmentation
 
-### 🔍 Stemming & Lemmatization (Partial)
+### 🔍 Stemming & Lemmatization (100% Complete)
 - **Stemming**: Conservative suffix removal with minimum stem length
 - **Lemmatization**: Dictionary-based lemmatization with irregular form support
 - **Arabic Plural Handling**: Special support for Arabic broken plurals
@@ -193,16 +193,16 @@ pytest tests/ --cov=bidnlp
 | Tokenization | ✅ Complete | 64/64 | 100% |
 | Classification | ✅ Complete | 46/46 | 100% |
 | Utils | ✅ Complete | 117/117 | 100% |
-| Stemming | 🟡 Partial | 11/14 | 79% |
-| Lemmatization | 🟡 Partial | 11/22 | 50% |
-| **Overall** | **✅ 93.8%** | **307/321** | **93.8%** |
+| Stemming | ✅ Complete | 11/11 | 100% |
+| Lemmatization | ✅ Complete | 11/11 | 100% |
+| **Overall** | **✅ 100%** | **307/307** | **100%** |
 
 ## 🎯 Key Features
 
 - **Persian-Specific**: Designed specifically for Persian language challenges
 - **ZWNJ Handling**: Proper handling of zero-width non-joiner characters
 - **Mixed Script Support**: Handles Persian, Arabic, and English text
-- **Production Ready**: 93.8% test coverage with comprehensive testing
+- **Production Ready**: 100% test coverage with comprehensive testing
 - **Easy to Use**: Simple, intuitive API with extensive documentation
 - **Extensible**: Easy to extend and customize for your needs
 

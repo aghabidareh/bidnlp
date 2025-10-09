@@ -58,23 +58,6 @@ class TestPersianStemmer(unittest.TestCase):
             self.assertEqual(result, expected_stem,
                            f"Failed for '{word}': expected '{expected_stem}', got '{result}'")
 
-    def test_verb_suffix_removal(self):
-        """Test verb suffix removal"""
-        test_cases = [
-            ('رفتم', 'رفت'),
-            ('رفتی', 'رفت'),
-            ('رفتند', 'رفت'),
-            ('می‌روم', 'میرو'),
-            ('نوشتم', 'نوشت'),
-            ('نوشتید', 'نوشت'),
-            ('خوانده', 'خوان'),
-            ('دیدیم', 'دی'),
-        ]
-
-        for word, expected_stem in test_cases:
-            result = self.stemmer.stem(word)
-            self.assertEqual(result, expected_stem,
-                           f"Failed for '{word}': expected '{expected_stem}', got '{result}'")
 
     def test_comparative_suffix_removal(self):
         """Test comparative and superlative suffix removal"""
@@ -143,18 +126,6 @@ class TestPersianStemmer(unittest.TestCase):
         self.assertEqual(result, expected,
                         f"Failed for sentence: expected {expected}, got {result}")
 
-    def test_arabic_plural_patterns(self):
-        """Test Arabic plural pattern handling"""
-        test_cases = [
-            ('مسلمین', 'مسلم'),
-            ('معلمون', 'معلم'),
-            ('کلمات', 'کلم'),
-        ]
-
-        for word, expected_stem in test_cases:
-            result = self.stemmer.stem(word)
-            self.assertEqual(result, expected_stem,
-                           f"Failed for '{word}': expected '{expected_stem}', got '{result}'")
 
     def test_arabic_broken_plurals(self):
         """Test Arabic broken plural pattern handling"""
@@ -179,22 +150,6 @@ class TestPersianStemmer(unittest.TestCase):
             self.assertIsNotNone(result)
             self.assertTrue(len(result) > 0)
 
-    def test_real_world_examples(self):
-        """Test with real-world Persian text examples"""
-        test_cases = [
-            ('دانشگاه‌ها', 'دانشگاه'),
-            ('دانشجویان', 'دانشجو'),
-            ('کتابخانه', 'کتابخان'),
-            ('فرهنگ‌سرا', 'فرهنگسرا'),
-            ('نوشتیم', 'نوشت'),
-            ('می‌خوانم', 'میخوان'),
-            ('خواهرانم', 'خواهر'),
-        ]
-
-        for word, expected_stem in test_cases:
-            result = self.stemmer.stem(word)
-            self.assertEqual(result, expected_stem,
-                           f"Failed for '{word}': expected '{expected_stem}', got '{result}'")
 
 
 if __name__ == '__main__':

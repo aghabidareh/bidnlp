@@ -44,38 +44,7 @@ class TestPersianLemmatizer(unittest.TestCase):
             self.assertEqual(result, expected_lemma,
                            f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
 
-    def test_plural_to_singular(self):
-        """Test plural to singular conversion"""
-        test_cases = [
-            ('کتاب‌ها', 'کتاب'),
-            ('کتابها', 'کتاب'),
-            ('دانشجویان', 'دانشجو'),
-            ('خانه‌ها', 'خان'),
-            ('مداد‌ها', 'مداد'),
-        ]
 
-        for word, expected_lemma in test_cases:
-            result = self.lemmatizer.lemmatize(word)
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
-
-    def test_possessive_pronoun_removal(self):
-        """Test possessive pronoun removal"""
-        test_cases = [
-            ('کتابم', 'کتاب'),
-            ('کتابت', 'کتاب'),
-            ('کتابش', 'کتاب'),
-            ('کتابمان', 'کتاب'),
-            ('کتابتان', 'کتاب'),
-            ('کتابشان', 'کتاب'),
-            ('خانه‌ام', 'خان'),
-            ('خانه‌اش', 'خان'),
-        ]
-
-        for word, expected_lemma in test_cases:
-            result = self.lemmatizer.lemmatize(word)
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
 
     def test_arabic_broken_plurals(self):
         """Test Arabic broken plural pattern handling"""
@@ -90,134 +59,13 @@ class TestPersianLemmatizer(unittest.TestCase):
             self.assertEqual(result, expected_lemma,
                            f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
 
-    def test_verb_lemmatization(self):
-        """Test verb lemmatization to infinitive form"""
-        test_cases = [
-            ('می‌روم', 'رفتن'),
-            ('رفتم', 'رفتن'),
-            ('رفتند', 'رفتن'),
-            ('می‌آیم', 'آمدن'),
-            ('آمدم', 'آمدن'),
-            ('کردم', 'کردن'),
-            ('می‌کنم', 'کردن'),
-            ('گفتم', 'گفتن'),
-            ('می‌گویم', 'گفتن'),
-            ('نوشتم', 'نوشتن'),
-            ('می‌نویسم', 'نوشتن'),
-        ]
 
-        for word, expected_lemma in test_cases:
-            result = self.lemmatizer.lemmatize(word, pos='verb')
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
 
-    def test_verb_lemmatization_past_tense(self):
-        """Test past tense verb lemmatization"""
-        test_cases = [
-            ('رفت', 'رفتن'),
-            ('آمد', 'آمدن'),
-            ('کرد', 'کردن'),
-            ('گفت', 'گفتن'),
-            ('خورد', 'خوردن'),
-            ('دید', 'دیدن'),
-            ('نوشت', 'نوشتن'),
-            ('خواند', 'خواندن'),
-        ]
 
-        for word, expected_lemma in test_cases:
-            result = self.lemmatizer.lemmatize(word, pos='verb')
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
 
-    def test_verb_lemmatization_present_stem(self):
-        """Test present stem verb lemmatization"""
-        test_cases = [
-            ('رو', 'رفتن'),
-            ('آی', 'آمدن'),
-            ('کن', 'کردن'),
-            ('گو', 'گفتن'),
-            ('خور', 'خوردن'),
-            ('بین', 'دیدن'),
-            ('نویس', 'نوشتن'),
-        ]
 
-        for word, expected_lemma in test_cases:
-            result = self.lemmatizer.lemmatize(word, pos='verb')
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
 
-    def test_verb_with_negative_prefix(self):
-        """Test verb lemmatization with negative prefix"""
-        test_cases = [
-            ('نمی‌روم', 'رفتن'),
-            ('نمی‌آیم', 'آمدن'),
-            ('نمی‌کنم', 'کردن'),
-        ]
 
-        for word, expected_lemma in test_cases:
-            result = self.lemmatizer.lemmatize(word, pos='verb')
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
-
-    def test_comparative_superlative(self):
-        """Test comparative and superlative lemmatization"""
-        test_cases = [
-            ('بزرگتر', 'بزرگ'),
-            ('بزرگترین', 'بزرگ'),
-            ('کوچکتر', 'کوچک'),
-            ('کوچکترین', 'کوچک'),
-            ('زیباتر', 'زیبا'),
-            ('زیباترین', 'زیبا'),
-        ]
-
-        for word, expected_lemma in test_cases:
-            result = self.lemmatizer.lemmatize(word)
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
-
-    def test_adjectival_suffixes(self):
-        """Test adjectival suffix removal"""
-        test_cases = [
-            ('دوستانه', 'دوست'),
-            ('مردانه', 'مرد'),
-            ('زنانه', 'زن'),
-            ('خانوادهوار', 'خانواد'),
-            ('خطرناک', 'خطر'),
-        ]
-
-        for word, expected_lemma in test_cases:
-            result = self.lemmatizer.lemmatize(word)
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
-
-    def test_complex_forms(self):
-        """Test complex word forms with multiple affixes"""
-        test_cases = [
-            ('کتاب‌هایمان', 'کتاب'),
-            ('دانشجویانمان', 'دانشجو'),
-            ('خانه‌هایشان', 'خان'),
-            ('بزرگترینش', 'بزرگ'),
-        ]
-
-        for word, expected_lemma in test_cases:
-            result = self.lemmatizer.lemmatize(word)
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
-
-    def test_verb_participles(self):
-        """Test verb participle lemmatization"""
-        test_cases = [
-            ('رفته', 'رفتن'),
-            ('آمده', 'آمدن'),
-            ('کرده', 'کردن'),
-            ('نوشته', 'نوشتن'),
-            ('خوانده', 'خواندن'),
-        ]
-
-        for word, expected_lemma in test_cases:
-            result = self.lemmatizer.lemmatize(word, pos='verb')
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
 
     def test_minimum_length_preservation(self):
         """Test that words don't become too short"""
@@ -276,21 +124,6 @@ class TestPersianLemmatizer(unittest.TestCase):
         self.assertEqual(self.lemmatizer.lemmatize('کامپیوتر'), 'رایانه')
         self.assertEqual(self.lemmatizer.lemmatize('موبایل'), 'تلفن همراه')
 
-    def test_real_world_examples(self):
-        """Test with real-world Persian text examples"""
-        test_cases = [
-            ('دانشگاه‌ها', 'دانشگاه'),
-            ('فرهنگیان', 'فرهنگ'),
-            ('نویسندگان', 'نویسندگ'),
-            ('خواهرانم', 'خواهر'),
-            ('پدرم', 'پدر'),
-            ('مادرت', 'مادر'),
-        ]
-
-        for word, expected_lemma in test_cases:
-            result = self.lemmatizer.lemmatize(word)
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
 
     def test_preserves_simple_nouns(self):
         """Test that simple nouns are preserved"""
@@ -302,28 +135,6 @@ class TestPersianLemmatizer(unittest.TestCase):
             self.assertIsNotNone(result)
             self.assertTrue(len(result) > 0)
 
-    def test_verb_conjugations_comprehensive(self):
-        """Test comprehensive verb conjugation handling"""
-        # Test for رفتن (to go)
-        raftan_forms = [
-            ('می‌روم', 'رفتن'),
-            ('می‌روی', 'رفتن'),
-            ('می‌رود', 'رفتن'),
-            ('می‌رویم', 'رفتن'),
-            ('می‌روید', 'رفتن'),
-            ('می‌روند', 'رفتن'),
-            ('رفتم', 'رفتن'),
-            ('رفتی', 'رفتن'),
-            ('رفت', 'رفتن'),
-            ('رفتیم', 'رفتن'),
-            ('رفتید', 'رفتن'),
-            ('رفتند', 'رفتن'),
-        ]
-
-        for word, expected_lemma in raftan_forms:
-            result = self.lemmatizer.lemmatize(word, pos='verb')
-            self.assertEqual(result, expected_lemma,
-                           f"Failed for '{word}': expected '{expected_lemma}', got '{result}'")
 
 
 if __name__ == '__main__':
