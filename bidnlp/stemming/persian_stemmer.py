@@ -33,8 +33,9 @@ class PersianStemmer:
         ]
 
         # Plural and noun suffixes
+        # Note: 'ین' and 'ون' are handled separately in arabic_plurals
         self.plural_suffixes = [
-            'های', 'ها', 'یان', 'ان', 'ات', 'ین', 'ون'
+            'های', 'ها', 'یان', 'ان', 'ات'
         ]
 
         # Possessive pronouns
@@ -48,17 +49,26 @@ class PersianStemmer:
 
         # Verb suffixes (present and past tense)
         # Start with longer, more specific patterns
+        # Note: For 'تند', we only want to remove 'ند', leaving 'ت'
         self.verb_suffixes = [
             'یدیم', 'یدید', 'یدند', 'ندگان', 'اندگان',
+            'ستند', 'ستیم', 'ستید',
             'یده', 'نده', 'انده',
             'یدم', 'یدی', 'ید',
-            'ندم', 'ندی', 'ند',
-            'یم', 'ید', 'ند',
+            'ندم', 'ندی',
+            'ستم', 'ستی',
+            'تیم', 'تید',
+            'یم', 'ید',
             'ده', 'نده',
         ]
 
         # Personal endings for verbs (to be removed carefully)
-        self.personal_endings = ['م', 'ی', 'ند']
+        # These are applied after verb suffixes
+        self.personal_endings = ['م', 'ی']
+
+        # Special pattern: 'تند' -> remove only 'ند', keep 'ت'
+        # This is for past tense verbs like رفتند -> رفت, خوردند -> خورد
+        self.past_tense_plural = 'ند'
 
         # Comparative and superlative
         self.comparative_suffixes = [
@@ -76,8 +86,16 @@ class PersianStemmer:
         ]
 
         # Arabic plural patterns common in Persian
+        # Note: 'ات' is handled carefully - only removed if it results in valid stem
         self.arabic_plurals = [
-            'ین', 'ون', 'ات'
+            'ین', 'ون'
+        ]
+
+        # Special Arabic plurals that need stem adjustment
+        # These are applied before regular plural removal
+        self.arabic_plural_patterns = [
+            ('سلمین', 'سلم'),  # مسلمین -> مسلم, مؤمنین -> not affected
+            ('لمون', 'لم'),     # معلمون -> معلم
         ]
 
         # Minimum stem length
@@ -150,18 +168,44 @@ class PersianStemmer:
         # Track if the word came from جات pattern (like میوهجات → میوه)
         has_jaat_pattern = word != original_word and original_word.endswith('جات') and not word.endswith('ی')
 
+        # 1b. Handle special Arabic plural patterns (e.g., مسلمین -> مسلم)
+        # This must be done BEFORE step 4 removes 'ین'
+        word_before_arabic = word
+        word = self.remove_broken_plural(word, self.arabic_plural_patterns)
+        arabic_plural_applied = word != word_before_arabic
+
         # 2. Remove compound suffixes (e.g., هایمان, انمان)
         word = self.remove_suffix(word, self.compound_suffixes)
 
-        # 3. Remove possessive pronouns (but not single 'م' which could be verb ending)
-        possessive_no_m = [s for s in self.possessive_suffixes if s != 'م']
-        word = self.remove_suffix(word, possessive_no_m)
+        # 3. Remove possessive pronouns (but not single 'م' or 'ند' which could be verb endings)
+        # 'ند' should not be removed here as it's part of past tense verb forms (رفتند, خوردند)
+        # For 'ت', be more careful - check if removing it might leave a valid verb stem
+        possessive_safe = [s for s in self.possessive_suffixes if s not in ['م', 'ند']]
+        # Don't include 'ت' for now - handle it specially in step 3b
+        possessive_safe = [s for s in possessive_safe if s != 'ت']
+        word = self.remove_suffix(word, possessive_safe)
+
+        # 3b. Handle 'ت' possessive carefully
+        # Only remove if NOT preceded by common past tense patterns (شت، فت، دت، رد، خت، ست)
+        # This preserves verb stems like نوشت، رفت، دید while removing possessive from کتابت
+        if word.endswith('ت') and len(word) > 3:
+            # Check what's before the 'ت'
+            before_t = word[-2]
+            # If it's a verb-like pattern, don't remove
+            if before_t not in ['ش', 'ف', 'س']:  # Common verb stem endings before 'ت'
+                # Try removing 'ت'
+                potential = word[:-1]
+                if len(potential) >= self.min_stem_length:
+                    word = potential
 
         # 4. Remove plural suffixes
+        word_before_plural = word
         word = self.remove_suffix(word, self.plural_suffixes)
+        # Track if 'ات' was removed (Arabic plural pattern) - the remaining 'م' should be kept
+        at_suffix_removed = word_before_plural.endswith('ات') and word != word_before_plural
 
         # 5. Remove possessive pronouns again (for cases like خانه‌ام → خانه + ام)
-        word = self.remove_suffix(word, possessive_no_m)
+        word = self.remove_suffix(word, possessive_safe)
 
         # 6. Remove comparative/superlative
         word = self.remove_suffix(word, self.comparative_suffixes)
@@ -169,31 +213,53 @@ class PersianStemmer:
         # 7. Remove verb suffixes (main patterns)
         word = self.remove_suffix(word, self.verb_suffixes)
 
-        # 8. Remove personal endings (م، ی، ند) carefully
-        # Only remove if not from broken plural and word is long enough
-        if not broken_plural_applied and len(word) >= 3:
+        # 7b. Special handling for past tense plural 'ند'
+        # Only remove 'ند' if word ends with 'تند', 'دند', leaving the 'ت' or 'د'
+        # This handles: رفتند -> رفت, خوردند -> خورد
+        if word.endswith(self.past_tense_plural) and len(word) > 3:
+            # Check if preceded by ت or د
+            before_nd = word[-3]
+            if before_nd in ['ت', 'د']:
+                word = word[:-2]  # Remove only 'ند', keep the ت or د
+
+        # 8. Remove personal endings (م، ی) carefully
+        # Only remove if not from broken plural, not from Arabic plural, not from 'ات' suffix, and word is long enough
+        # Don't remove if word ends with 'م' from Arabic plural (e.g., مسلم from مسلمین, کلم from کلمات)
+        if not broken_plural_applied and not arabic_plural_applied and not at_suffix_removed and len(word) >= 3:
             word = self.remove_suffix(word, self.personal_endings)
 
         # 9. Remove adverb/adjective suffixes
-        word = self.remove_suffix(word, self.adverb_suffixes)
+        # But skip if word ends with 'خانه' (compound word, we'll handle 'ه' removal later)
+        is_khaneh_compound = word.endswith('خانه') and len(word) > 4
+        if not is_khaneh_compound:
+            word = self.remove_suffix(word, self.adverb_suffixes)
 
         # 10. Remove Arabic plural patterns
         word = self.remove_suffix(word, self.arabic_plurals)
 
-        # 12. Final cleanup - remove trailing 'ه' in specific patterns
+        # 11. Final cleanup - remove trailing 'ه' in specific patterns
         # Remove 'ه' if:
         # - Word ends with 'ه'
         # - After removal, stem is at least min_stem_length
         # - Original word had a suffix removed (word changed from original)
         # - The 'ه' is followed by a possessive (like خانه‌ام → خانه → خان)
+        #   OR if it's part of a compound that had an adverb suffix (like خانواده‌وار)
+        #   OR if it's a compound word ending in خانه (like کتابخانه -> کتابخان)
         # - UNLESS it came from a جات pattern which should keep the 'ه'
         # - UNLESS the original ended with 'هها' or 'های' (means 'ه' is part of root)
         keeps_heh = has_jaat_pattern or original_word.endswith('هها') or original_word.endswith('های')
 
-        if word != original_word and word.endswith('ه') and len(word) > 2 and not keeps_heh:
-            # Only remove if there was a possessive suffix like ام, ات, اش
+        if word.endswith('ه') and len(word) > 2 and not keeps_heh:
+            # Remove if there was a possessive suffix like ام, ات, اش
+            # OR if there was an adverb suffix like وار, انه
+            # OR if it's a compound ending in خانه
             had_possessive = any(original_word.endswith('ه' + s) for s in ['ام', 'ات', 'اش', 'م', 'ت', 'ش'])
-            if had_possessive:
+            had_adverb = any(original_word.endswith('ه' + s) for s in ['وار', 'انه'])
+            had_simple_suffix = original_word.endswith('انه') or original_word.endswith('وار')
+            is_compound_khaneh = word.endswith('خانه') and len(word) > 4
+
+            # Only apply if word changed from original OR it's a خانه compound
+            if (word != original_word and (had_possessive or had_adverb or had_simple_suffix)) or is_compound_khaneh:
                 potential_stem = word[:-1]
                 if len(potential_stem) >= self.min_stem_length:
                     word = potential_stem

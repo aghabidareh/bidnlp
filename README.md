@@ -193,16 +193,16 @@ pytest tests/ --cov=bidnlp
 | Tokenization | ✅ Complete | 64/64 | 100% |
 | Classification | ✅ Complete | 46/46 | 100% |
 | Utils | ✅ Complete | 117/117 | 100% |
-| Stemming | ⚠️ Partial | 7/14 | 50% |
-| Lemmatization | ⚠️ Partial | 9/20 | 45% |
-| **Overall** | **94.1%** | **302/321** | **94.1%** |
+| Stemming | 🟡 Partial | 11/14 | 79% |
+| Lemmatization | 🟡 Partial | 11/22 | 50% |
+| **Overall** | **✅ 93.8%** | **307/321** | **93.8%** |
 
 ## 🎯 Key Features
 
 - **Persian-Specific**: Designed specifically for Persian language challenges
 - **ZWNJ Handling**: Proper handling of zero-width non-joiner characters
 - **Mixed Script Support**: Handles Persian, Arabic, and English text
-- **Production Ready**: 94.1% test coverage with comprehensive testing
+- **Production Ready**: 93.8% test coverage with comprehensive testing
 - **Easy to Use**: Simple, intuitive API with extensive documentation
 - **Extensible**: Easy to extend and customize for your needs
 

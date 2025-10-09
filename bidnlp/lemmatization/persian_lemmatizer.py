@@ -74,26 +74,34 @@ class PersianLemmatizer:
             ('جات', ''),    # میوه‌جات -> میوه
         ]
 
+        # Compound suffixes (remove as a unit)
+        self.compound_suffixes = [
+            'هایمان', 'هایتان', 'هایشان',
+            'هایم', 'هایت', 'هایش',
+            'انمان', 'انتان', 'انشان',
+        ]
+
         # Plural to singular patterns
         self.plural_patterns = [
+            ('های', ''),
             ('ها', ''),
+            ('یان', ''),
             ('ان', ''),
             ('ات', ''),
             ('ین', 'ی'),
             ('گان', ''),
         ]
 
-        # Possessive and attached pronouns
+        # Possessive and attached pronouns (excluding 'م', 'ت', 'ند' which may be verb endings)
         self.attached_pronouns = [
-            'هایم', 'هایت', 'هایش', 'هایمان', 'هایتان', 'هایشان',
-            'ام', 'ات', 'اش', 'مان', 'تان', 'شان',
+            'مان', 'تان', 'شان',
             'ایم', 'اید', 'اند',
-            'یم', 'ید', 'ند',
-            'م', 'ت', 'ش'
+            'یم', 'ید',
+            'ام', 'ات', 'اش',
+            'ش'
         ]
 
         # Verb conjugation endings
-        # Note: Single letter endings like 'ی' are too aggressive, removed
         self.verb_endings = [
             'یدیم', 'یدید', 'یدند', 'ندگان',
             'یده', 'نده',
@@ -102,8 +110,10 @@ class PersianLemmatizer:
             'ستم', 'ستی', 'ست',
             'یم', 'ید', 'ند',
             'ده', 'ته',
-            'د', 'م'
         ]
+
+        # Personal verb endings (remove carefully)
+        self.personal_endings = ['م', 'ی', 'ند', 'د']
 
         # Comparative/superlative
         self.comparison_suffixes = ['ترین', 'تری', 'تر']
@@ -243,12 +253,19 @@ class PersianLemmatizer:
             return self.lemma_dict[word]
 
         # Remove Arabic broken plurals FIRST (before 'ات' in attached pronouns)
+        broken_plural_applied = False
+        has_jaat_pattern = False
         for plural, singular in self.arabic_broken_plurals:
             if word.endswith(plural):
                 potential = word[:-len(plural)] + singular
                 if len(potential) >= self.min_length:
                     word = potential
+                    broken_plural_applied = word.endswith('ی')
+                    has_jaat_pattern = original.endswith('جات') and not word.endswith('ی')
                     break
+
+        # Remove compound suffixes first
+        word = self._remove_suffix(word, self.compound_suffixes)
 
         # Remove attached pronouns
         word = self._remove_suffix(word, self.attached_pronouns)
@@ -280,18 +297,29 @@ class PersianLemmatizer:
                     word = potential
                     break
 
+        # Remove attached pronouns again (for cases like خانه‌ام)
+        word = self._remove_suffix(word, self.attached_pronouns)
+
         # Remove adjectival suffixes
         word = self._remove_suffix(word, self.adjectival_suffixes)
 
         # Remove verb endings (in case it's a participle)
         word = self._remove_suffix(word, self.verb_endings)
 
+        # Remove personal endings carefully (not if from broken plural)
+        if not broken_plural_applied and len(word) >= 3:
+            word = self._remove_suffix(word, self.personal_endings)
+
         # Final cleanup - be conservative with 'ه' removal
-        # Only remove for longer words to avoid over-stemming
-        if word.endswith('ه') and len(word) > 4:
-            stem = word[:-1]
-            if len(stem) >= self.min_length:
-                word = stem
+        # Only remove if: ends with 'ه', had possessive, not from جات pattern
+        keeps_heh = has_jaat_pattern or original.endswith('هها') or original.endswith('های')
+        if word != original and word.endswith('ه') and len(word) > 2 and not keeps_heh:
+            # Only remove if there was a possessive suffix
+            had_possessive = any(original.endswith('ه' + s) for s in ['ام', 'ات', 'اش', 'م', 'ت', 'ش'])
+            if had_possessive:
+                stem = word[:-1]
+                if len(stem) >= self.min_length:
+                    word = stem
 
         return word if word and len(word) >= self.min_length else original
 
