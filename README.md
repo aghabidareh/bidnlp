@@ -4,9 +4,14 @@
 
 BidNLP is a production-ready Python library for Persian text processing, offering a complete suite of NLP tools specifically designed for the unique challenges of Persian language processing.
 
+[![CI](https://github.com/aghabidareh/bidnlp/actions/workflows/ci.yml/badge.svg)](https://github.com/aghabidareh/bidnlp/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/aghabidareh/bidnlp/actions/workflows/codeql.yml/badge.svg)](https://github.com/aghabidareh/bidnlp/actions/workflows/codeql.yml)
+[![codecov](https://codecov.io/gh/aghabidareh/bidnlp/branch/master/graph/badge.svg)](https://codecov.io/gh/aghabidareh/bidnlp)
+[![PyPI version](https://badge.fury.io/py/bidnlp.svg)](https://badge.fury.io/py/bidnlp)
 [![Python 3.7+](https://img.shields.io/badge/python-3.7+-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![Tests: 94.1%](https://img.shields.io/badge/tests-94.1%25-brightgreen.svg)](https://github.com/aghabidareh/bidnlp)
+[![Downloads](https://static.pepy.tech/badge/bidnlp)](https://pepy.tech/project/bidnlp)
+[![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 
 ## ✨ Features
 
@@ -210,15 +215,38 @@ pytest tests/ --cov=bidnlp
 - **Search & Retrieval**: Build Persian search engines with proper tokenization
 - **NLP Research**: Foundation for Persian NLP research and experiments
 
+## 🔄 CI/CD & Quality Assurance
+
+BidNLP uses comprehensive automated workflows to ensure code quality and reliability:
+
+### Continuous Integration
+- ✅ **Multi-version Testing**: Automated tests across Python 3.7-3.12 on Ubuntu, macOS, and Windows
+- ✅ **Code Coverage**: Comprehensive coverage reporting with Codecov integration
+- ✅ **Code Quality**: Automated checks with Black, isort, flake8, and mypy
+- ✅ **Security Scanning**: Regular security audits with Bandit, Safety, and CodeQL
+- ✅ **Dependency Updates**: Automated dependency management with Dependabot
+
+### Release Pipeline
+- ✅ **Automated PyPI Publishing**: Seamless releases on version tags
+- ✅ **GitHub Releases**: Automatic changelog and artifact generation
+- ✅ **Package Validation**: Pre-release checks ensure package integrity
+
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+**Quick Start:**
 
 1. Fork the repository
 2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+3. Make your changes and add tests
+4. Ensure all tests pass (`pytest tests/`)
+5. Format code (`black . && isort .`)
+6. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+7. Push to the branch (`git push origin feature/AmazingFeature`)
+8. Open a Pull Request
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for detailed guidelines.
 
 ## 📝 License
 

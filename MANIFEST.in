@@ -1,8 +1,30 @@
+# Include documentation files
 include README.md
 include LICENSE
+include CHANGELOG.md
+include CONTRIBUTING.md
+include SECURITY.md
 include QUICKSTART.md
 include ROADMAP.md
 include SESSION_SUMMARY.md
+
+# Include configuration files
+include pyproject.toml
+include setup.py
+include .flake8
+
+# Include package files
 recursive-include bidnlp *.py
+
+# Include tests (optional - comment out if you don't want to ship tests)
 recursive-include tests *.py
+
+# Include examples
 recursive-include examples *.py
+
+# Exclude unnecessary files
+exclude .gitignore
+recursive-exclude * __pycache__
+recursive-exclude * *.py[co]
+recursive-exclude * .DS_Store
+recursive-exclude .github *
