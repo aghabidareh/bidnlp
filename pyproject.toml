@@ -71,6 +71,9 @@ dev = [
 include = ["bidnlp*"]
 exclude = ["tests*", "examples*"]
 
+[tool.setuptools.package-data]
+"*" = ["*.txt"]
+
 [tool.black]
 line-length = 100
 target-version = ['py37', 'py38', 'py39', 'py310', 'py311', 'py312']

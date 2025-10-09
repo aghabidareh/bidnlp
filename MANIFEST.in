@@ -8,6 +8,9 @@ include QUICKSTART.md
 include ROADMAP.md
 include SESSION_SUMMARY.md
 
+# Include data files
+include stopwords.txt
+
 # Include configuration files
 include pyproject.toml
 include setup.py
