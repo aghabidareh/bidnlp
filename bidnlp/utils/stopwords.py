@@ -4,62 +4,42 @@ Persian Stop Words
 Provides Persian stop words list and utilities.
 """
 
+import os
 from typing import Set, List, Optional
 
 
 class PersianStopWords:
     """Persian stop words management."""
 
-    # Common Persian stop words
-    DEFAULT_STOPWORDS = {
-        # Pronouns
-        'من', 'تو', 'او', 'ما', 'شما', 'آنها', 'این', 'آن', 'آنان',
-        'خود', 'خویش', 'خویشتن',
+    # Load default stopwords from file
+    _DEFAULT_STOPWORDS = None
 
-        # Verbs (to be)
-        'است', 'هست', 'بود', 'بودن', 'بودند', 'بودم', 'بودی', 'بوده',
-        'باشد', 'باشم', 'باشی', 'باشیم', 'باشید', 'باشند',
-        'نیست', 'نبود', 'نباشد',
+    @classmethod
+    def _load_default_stopwords(cls) -> Set[str]:
+        """Load default stopwords from stopwords.txt file."""
+        if cls._DEFAULT_STOPWORDS is not None:
+            return cls._DEFAULT_STOPWORDS
 
-        # Prepositions
-        'از', 'به', 'با', 'در', 'بر', 'برای', 'تا', 'بی', 'مثل', 'مانند',
-        'همچون', 'چون', 'مگر', 'جز', 'غیر', 'بدون',
+        # Get the path to stopwords.txt in the project root
+        current_dir = os.path.dirname(os.path.abspath(__file__))
+        project_root = os.path.dirname(os.path.dirname(current_dir))
+        stopwords_path = os.path.join(project_root, 'stopwords.txt')
 
-        # Conjunctions
-        'و', 'یا', 'اما', 'ولی', 'که', 'چه', 'اگر', 'پس',
-        'زیرا', 'چونکه', 'چنانچه', 'هرچند', 'لیکن',
+        stopwords = set()
+        if os.path.exists(stopwords_path):
+            with open(stopwords_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    word = line.strip()
+                    if word:  # Skip empty lines
+                        stopwords.add(word)
 
-        # Determiners
-        'یک', 'یکی', 'همه', 'تمام', 'بعضی', 'چند', 'هر', 'هیچ',
-        'دیگر', 'بیش', 'کم', 'خیلی', 'بسیار',
+        cls._DEFAULT_STOPWORDS = stopwords
+        return stopwords
 
-        # Question words
-        'چی', 'چه', 'کی', 'کجا', 'کدام', 'چرا', 'چگونه', 'چطور',
-        'کدامین', 'چند',
-
-        # Adverbs
-        'خیلی', 'بسیار', 'بیش', 'کم', 'همیشه', 'هرگز', 'گاهی',
-        'اکنون', 'حالا', 'امروز', 'دیروز', 'فردا', 'باز', 'بازهم',
-        'دوباره', 'تنها', 'فقط', 'حتی', 'نیز', 'هم', 'آنجا', 'اینجا',
-
-        # Common verbs
-        'شد', 'شده', 'شود', 'شوند', 'شدند', 'شدم', 'شدی', 'شویم', 'شوید',
-        'کرد', 'کرده', 'کنم', 'کنی', 'کند', 'کنید', 'کنند', 'می\u200cکند',
-        'داشت', 'دارد', 'داشته', 'دارم', 'داری', 'داریم', 'دارید', 'دارند',
-        'گفت', 'گوید', 'گفته', 'گویم', 'گویی', 'گوییم', 'گویید', 'گویند',
-
-        # Negation
-        'نه', 'نی', 'نمی', 'ن',
-
-        # Possessive markers
-        'ام', 'ات', 'اش', 'مان', 'تان', 'شان',
-
-        # Others
-        'را', 'رو', 'ای', 'هان', 'آری', 'بله', 'خیر',
-        'البته', 'مثلا', 'یعنی', 'خب', 'آخه', 'الان',
-        'وقتی', 'زمانی', 'هنگامی', 'آنگاه', 'سپس', 'آنگه',
-        'نزد', 'پیش', 'کنار', 'نیمه', 'تر', 'ترین',
-    }
+    @property
+    def DEFAULT_STOPWORDS(self) -> Set[str]:
+        """Get default stopwords."""
+        return self._load_default_stopwords()
 
     def __init__(self, custom_stopwords: Optional[Set[str]] = None,
                  include_defaults: bool = True):
@@ -203,28 +183,28 @@ class PersianStopWords:
 
     def reset_to_defaults(self) -> None:
         """Reset stop words to default list."""
-        self.stopwords = self.DEFAULT_STOPWORDS.copy()
+        self.stopwords = self._load_default_stopwords().copy()
 
     def clear(self) -> None:
         """Clear all stop words."""
         self.stopwords.clear()
 
-    @staticmethod
-    def get_default_stopwords() -> Set[str]:
+    @classmethod
+    def get_default_stopwords(cls) -> Set[str]:
         """
         Get the default Persian stop words.
 
         Returns:
             Set of default stop words
         """
-        return PersianStopWords.DEFAULT_STOPWORDS.copy()
+        return cls._load_default_stopwords().copy()
 
-    @staticmethod
-    def get_default_stopwords_list() -> List[str]:
+    @classmethod
+    def get_default_stopwords_list(cls) -> List[str]:
         """
         Get the default Persian stop words as a sorted list.
 
         Returns:
             Sorted list of default stop words
         """
-        return sorted(PersianStopWords.DEFAULT_STOPWORDS)
+        return sorted(cls._load_default_stopwords())
