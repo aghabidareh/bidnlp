@@ -34,6 +34,12 @@ BidNLP is a production-ready Python library for Persian text processing, offerin
 - **Lemmatization**: Dictionary-based lemmatization with irregular form support
 - **Arabic Plural Handling**: Special support for Arabic broken plurals
 
+### 🏷️ POS Tagging (100% Complete)
+- **Rule-Based Tagger**: Dictionary and morphology-based POS tagging
+- **HMM Tagger**: Statistical Hidden Markov Model-based tagging with training support
+- **Comprehensive Tag Set**: 30+ Persian-specific POS tags
+- **Custom Dictionaries**: Extensible with custom words and tags
+
 ### 📊 Classification (100% Complete)
 - **Sentiment Analysis**: Keyword-based with 100+ sentiment keywords and negation handling
 - **Text Classification**: Keyword-based multi-class categorization
@@ -89,6 +95,27 @@ words = tokenizer.tokenize("من به دانشگاه می‌روم")
 sent_tokenizer = PersianSentenceTokenizer()
 sentences = sent_tokenizer.tokenize("سلام. چطوری؟")
 # Output: ['سلام.', 'چطوری؟']
+```
+
+### POS Tagging
+
+```python
+from bidnlp.pos import RuleBasedPOSTagger, HMMPOSTagger
+
+# Rule-based POS tagging
+tagger = RuleBasedPOSTagger()
+tagged = tagger.tag("من به دانشگاه می‌روم")
+# Output: [('من', 'PRO_PERS'), ('به', 'PREP'), ('دانشگاه', 'N'), ('می‌روم', 'V_PRES')]
+
+# HMM-based tagging
+hmm_tagger = HMMPOSTagger()
+# Train with tagged data
+training_data = [
+    [("من", "PRO_PERS"), ("به", "PREP"), ("خانه", "N"), ("می‌روم", "V_PRES")],
+    # ... more training examples
+]
+hmm_tagger.train(training_data)
+tagged = hmm_tagger.tag("او کتاب می‌خواند")
 ```
 
 ### Sentiment Analysis
@@ -179,6 +206,7 @@ pytest tests/
 pytest tests/preprocessing/ -v
 pytest tests/tokenization/ -v
 pytest tests/classification/ -v
+pytest tests/pos/ -v
 pytest tests/utils/ -v
 
 # Run with coverage
@@ -192,10 +220,11 @@ pytest tests/ --cov=bidnlp
 | Preprocessing | ✅ Complete | 58/58 | 100% |
 | Tokenization | ✅ Complete | 64/64 | 100% |
 | Classification | ✅ Complete | 46/46 | 100% |
+| POS Tagging | ✅ Complete | 109/109 | 100% |
 | Utils | ✅ Complete | 117/117 | 100% |
 | Stemming | ✅ Complete | 11/11 | 100% |
 | Lemmatization | ✅ Complete | 11/11 | 100% |
-| **Overall** | **✅ 100%** | **307/307** | **100%** |
+| **Overall** | **✅ 100%** | **415/415** | **88%+** |
 
 ## 🎯 Key Features
 

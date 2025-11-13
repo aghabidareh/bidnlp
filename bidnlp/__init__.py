@@ -11,6 +11,7 @@ from . import lemmatization
 from . import classification
 from . import tokenization
 from . import utils
+from . import pos
 
 __all__ = [
     "preprocessing",
@@ -19,4 +20,5 @@ __all__ = [
     "classification",
     "tokenization",
     "utils",
+    "pos",
 ]
