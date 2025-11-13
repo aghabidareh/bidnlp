@@ -2,8 +2,8 @@
 BidNLP - Persian (Farsi) Natural Language Processing Library
 """
 
-__version__ = "0.1.0"
-__author__ = "Your Name"
+__version__ = "0.2.2"
+__author__ = "aghabidareh"
 
 from . import preprocessing
 from . import stemming
